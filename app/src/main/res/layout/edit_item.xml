@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="64dp"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    >
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="name"
+        android:layout_weight="1"
+        android:layout_gravity="left"
+        android:gravity="center"
+        android:textSize="@dimen/textsize_edit"
+        android:textColor="@color/black"
+        android:background="@color/white"/>
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="请输入值"
+        android:textColorHint="@color/text_hint"
+        android:textColor="@color/text_hint"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:textSize="@dimen/textsize_edit"
+        android:background="@drawable/bg_edittext"
+        />
+</LinearLayout>

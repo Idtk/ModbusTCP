@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <include
+        android:id="@+id/write_ip"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/write_port"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/write_slaveId"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/write_start"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/write_value"
+        layout="@layout/edit_item"/>
+
+    <Button
+        android:id="@+id/write_button"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center"
+        android:textSize="@dimen/textsize_edit"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="发送"/>
+
+</LinearLayout>

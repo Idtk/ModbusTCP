@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_read"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:layout_scrollFlags="scroll|enterAlways">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/connect"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="连接"
+                android:gravity="center_vertical|left"
+                android:layout_gravity="center_vertical|left"
+                android:background="@color/light_gray"
+                android:layout_weight="1"
+                android:textSize="@dimen/textsize_edit"/>
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="@dimen/textsize_title"
+                android:background="@color/light_gray"
+                android:layout_weight="3"
+                android:text="标题"/>
+
+            <Button
+                android:id="@+id/disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:layout_gravity="center_vertical|right"
+                android:background="@color/light_gray"
+                android:layout_weight="1"
+                android:textSize="@dimen/textsize_edit"
+                android:text="断开"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/light_gray" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/read_view_recycler"
+        android:layout_width="match_parent"
+         android:layout_height="match_parent"/>
+
+</LinearLayout>

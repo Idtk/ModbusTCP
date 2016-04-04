@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- Customize your theme here. -->
+        <item name="colorAccent">@color/blue</item>
+        <!--隐藏Actionbar-->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--Status bar的颜色-->
+        <item name="colorPrimaryDark">@color/black</item>
+        <!--Toolbar的颜色-->
+        <item name="colorPrimary">@color/white</item>
+        <!--Window的颜色-->
+        <!--<item name="android:windowBackground">@color/white</item>-->
+        <!--navigationBar的颜色-->
+        <!--<item name="android:navigationBarColor">@color/default_blue</item>-->
+        <!--透明状态栏-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--为 Theme 设置透明属性避免闪屏-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+    </style>
+
+    <style name="dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

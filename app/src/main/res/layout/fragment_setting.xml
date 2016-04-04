@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_gray">
+    <include
+        android:id="@+id/toolbar_setting"
+        layout="@layout/toolbar_item" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/light_gray" />
+    <Spinner
+        android:id="@+id/function_spinner"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center"
+        android:textSize="@dimen/textsize_edit"
+        android:layout_gravity="center_horizontal"/>
+    <include
+        android:id="@+id/read_ip"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/read_port"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/read_slaveId"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/read_start"
+        layout="@layout/edit_item"/>
+    <include
+        android:id="@+id/read_length"
+        layout="@layout/edit_item"/>
+    <!--<View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray" />-->
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+        <Spinner
+            android:id="@+id/function_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_edit"
+            android:layout_gravity="center|left"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="请输入"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:textSize="@dimen/textsize_edit"
+            android:textColor="@color/text_hint"/>
+    </LinearLayout>-->
+
+</LinearLayout>
