@@ -39,6 +39,7 @@ public class Input_Registers {
                 inputRegisterRead(ip, port, slaveId, start, len, resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新连接");
             }
         } finally {
             master.destroy();
@@ -52,6 +53,7 @@ public class Input_Registers {
             ReadInputRegistersResponse response = (ReadInputRegistersResponse) master.send(request);
             if (response.isException()) {
                 Log.e("TAG1", "Exception response: message=" + response.getExceptionMessage());
+                resultListener.onToast("Exception response: message=" + response.getExceptionMessage());
             } else {
                 ByteQueue byteQueue= new ByteQueue(12);
                 response.write(byteQueue);
@@ -70,6 +72,7 @@ public class Input_Registers {
                 readInputRegisters(master, ip, port, slaveId, start, len, resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新连接");
             }
         }finally {
             master.destroy();

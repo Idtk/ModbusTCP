@@ -19,14 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.modbustcp.Interface.ResultListener;
 import com.example.administrator.modbustcp.R;
 import com.example.administrator.modbustcp.model.DataModel;
 import com.example.administrator.modbustcp.service.ReadService;
 import com.example.administrator.modbustcp.utils.CustomDialog;
-import com.example.administrator.modbustcp.utils.CustomDialog1;
 import com.example.administrator.modbustcp.utils.LogUtils;
+import com.example.administrator.modbustcp.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,7 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
     private int type;
 
     private int UPDATE = 1;
+    private int TOAST = 2;
     private int flag = 0;
     private Intent intentService;
     private ReadService.ServiceBinder mServiceBinder = null;
@@ -77,14 +79,26 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
         }
     };
 
-    private Handler handler = new Handler() {
+    static class MyHandler extends Handler{
+        ReadWriteFragment handlerReadWriteFragment;
+        MyHandler(ReadWriteFragment readWriteFragment){
+            handlerReadWriteFragment = readWriteFragment;
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == UPDATE) {
-                mAdapter.notifyDataSetChanged();
+            super.handleMessage(msg);
+            if (handlerReadWriteFragment != null){
+                switch (msg.what){
+                    case 2:
+                        ToastUtil.showToast(ReadWriteFragment.context, msg.obj.toString(), Toast.LENGTH_SHORT);
+                        break;
+                }
             }
         }
-    };
+    }
+
+    MyHandler handler = new MyHandler(this);
 
     public static ReadWriteFragment getInstance(boolean isTest ,Context context)
     {
@@ -99,13 +113,6 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
 
         rootView=inflater.inflate(R.layout.fragment_read,container,false);
         intentService = new Intent(getActivity(), ReadService.class);
-//        getActivity().bindService(intentService, readConnection, Context.BIND_AUTO_CREATE);
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Coil_Status.coilStatusRead("192.168.1.158", 502, 1, 100, 10, ReadWriteFragment.this);
-            }
-        }).start();*/
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_read);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.read_view_recycler);
         textView = (TextView) toolbar.findViewById(R.id.text_title);
@@ -173,15 +180,9 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
                 public void onClick(View v) {
                     Log.e("TAG5", position + "");
                     if (position>0){
-                        if (type==3){
-                            CustomDialog dialog = new  CustomDialog(getActivity(),R.style.dialog,ip,port,
-                                    slaveId, start+position-1,holder.mTvValue.getText().toString());
-                            dialog.show();
-                        }else if (type ==1){
-                            CustomDialog1 dialog1 = new  CustomDialog1(getActivity(),R.style.dialog,ip,port,
-                                    slaveId, start+position-1,holder.mTvValue.getText().toString());
-                            dialog1.show();
-                        }
+                        CustomDialog dialog = new  CustomDialog(getActivity(),R.style.dialog,ip,port,
+                                slaveId, start+position-1,holder.mTvValue.getText().toString(),type);
+                        dialog.show();
                     }
                 }
             });
@@ -244,10 +245,24 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
             data.add(model);
         }
         //给handler发送消息
-        Message msg = new Message();
-        msg.what = UPDATE;
-        handler.sendMessage(msg);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
         return dataList;
+    }
+
+    @Override
+    public void onToast(String string) {
+//        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        //给handler发送消息
+        Message msg = new Message();
+        msg.what = TOAST;
+        msg.obj = string;
+        handler.sendMessage(msg);
+
     }
 
     @Override
@@ -259,6 +274,8 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
                     flag = 1;
                     Log.e("TAG","连接2");
                     getActivity().bindService(intentService, readConnection, Context.BIND_AUTO_CREATE);
+                }else {
+                    ToastUtil.showToast(getActivity(), "请先断开连接", Toast.LENGTH_SHORT);
                 }
                 break;
             case R.id.disconnect:
@@ -266,13 +283,9 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
                 if (flag == 1) {
                     flag = 0;
                     Log.e("TAG","断开2");
-//                    getActivity().stopService(intentService);
                     getActivity().unbindService(readConnection);
-                    /*try {
-                        getActivity().unbindService(readConnection);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }*/
+                }else {
+                    ToastUtil.showToast(getActivity(), "连接已断开", Toast.LENGTH_SHORT);
                 }
                 break;
 
@@ -286,11 +299,6 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
             flag = 0;
             getActivity().unbindService(readConnection);
         }
-        /*try {
-            getActivity().unbindService(readConnection);
-        }catch (Exception e){
-            e.printStackTrace();
-        }*/
         super.onDestroy();
     }
 }

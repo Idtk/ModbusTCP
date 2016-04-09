@@ -8,4 +8,5 @@ import java.util.ArrayList;
 public interface ResultListener {
     public ArrayList<String> result(ArrayList<String> dataList,String ip, int port, int slaveId,
                                     int start, int type);
+    public void onToast(String msg);
 }

@@ -14,11 +14,11 @@
     <include
         android:id="@+id/write_start"
         layout="@layout/edit_item"/>
-    <include
+    <!--<include
         android:id="@+id/write_value"
-        layout="@layout/edit_item"/>
+        layout="@layout/edit_item"/>-->
 
-    <Button
+    <!--<Button
         android:id="@+id/write_button"
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -28,6 +28,6 @@
         android:paddingRight="16dp"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:text="发送"/>
+        android:text="发送"/>-->
 
 </LinearLayout>

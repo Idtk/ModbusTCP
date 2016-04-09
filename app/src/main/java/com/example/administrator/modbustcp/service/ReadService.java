@@ -13,6 +13,7 @@ import com.example.administrator.modbustcp.modbus.Coil_Status;
 import com.example.administrator.modbustcp.modbus.Holding_Register;
 import com.example.administrator.modbustcp.modbus.Input_Registers;
 import com.example.administrator.modbustcp.modbus.Input_Status;
+import com.example.administrator.modbustcp.utils.ToastUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,7 +53,7 @@ public class ReadService extends Service{
                     requestDate(resultListener);
                 }
             }, 0, 1000); //每隔1秒
-            Toast.makeText(ReadService.this,"开始连接",Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(ReadService.this, "开始连接", Toast.LENGTH_SHORT);
         }
     }
 
@@ -94,7 +95,7 @@ public class ReadService extends Service{
     public boolean onUnbind(Intent intent) {
         stopTimer();
         Log.e("TAG", "停止定时器");
-        Toast.makeText(this,"断开连接",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "断开连接", Toast.LENGTH_SHORT).show();
         return super.onUnbind(intent);
     }
 }

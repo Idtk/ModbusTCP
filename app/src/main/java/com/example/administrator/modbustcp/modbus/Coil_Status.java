@@ -42,6 +42,7 @@ public class Coil_Status {
                 coilStatusRead(ip, port, slaveId, start, len, resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新连接");
             }
         } finally {
             master.destroy();
@@ -54,6 +55,7 @@ public class Coil_Status {
             ReadCoilsResponse response = (ReadCoilsResponse) master.send(request);
             if (response.isException()) {
                 Log.e("TAG1", "Exception response: message=" + response.getExceptionMessage());
+                resultListener.onToast("Exception response: message=" + response.getExceptionMessage());
             } else {
                 ByteQueue byteQueue= new ByteQueue(12);
                 response.write(byteQueue);
@@ -73,6 +75,7 @@ public class Coil_Status {
                 readCoilStatus(master, ip, port, slaveId, start, len,resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新连接");
             }
         }
     }
@@ -118,7 +121,7 @@ public class Coil_Status {
                 countWrite++;
                 writeCoilsStatus(master, slaveId, start, values);
             }else {
-                Log.e("TAG","请检查设置后重新连接");
+                Log.e("TAG","请检查设置后重新写入");
             }
         }
         finally {
@@ -126,7 +129,7 @@ public class Coil_Status {
         }
     }
 
-    public static void coilStatusWrite(String ip, int port, int slaveId, int start, boolean value){
+    public static void coilStatusWrite(String ip, int port, int slaveId, int start, boolean value, ResultListener resultListener){
         ModbusFactory modbusFactory = new ModbusFactory();
         // 设备ModbusTCP的Ip与端口，如果不设定端口则默认为502
         IpParameters params = new IpParameters();
@@ -136,15 +139,16 @@ public class Coil_Status {
         ModbusMaster tcpMaster = modbusFactory.createTcpMaster(params, true);
         try {
             tcpMaster.init();
-            writeCoilStatus(tcpMaster,slaveId,start,value);
+            writeCoilStatus(tcpMaster, slaveId, start, value, resultListener);
             Log.e("TAG", "===============");
         } catch (ModbusInitException e) {
             e.printStackTrace();
             if (countWrite<3){
                 countWrite++;
-                coilStatusWrite(ip, port, slaveId, start, value);
+                coilStatusWrite(ip, port, slaveId, start, value, resultListener);
             }else {
                 Log.e("TAG", "此处出现问题了啊");
+                resultListener.onToast("请检查设置后重新发送");
             }
         }
         finally {
@@ -152,23 +156,26 @@ public class Coil_Status {
         }
     }
 
-    private static void writeCoilStatus(ModbusMaster master, int slaveId, int start, boolean value){
+    private static void writeCoilStatus(ModbusMaster master, int slaveId, int start, boolean value, ResultListener resultListener){
         try {
             WriteCoilRequest request = new WriteCoilRequest(slaveId, start, value);
             WriteCoilResponse response = (WriteCoilResponse) master.send(request);
             if (response.isException()){
                 Log.e("TAG", "Exception response: message=" + response.getExceptionMessage());
+                resultListener.onToast("Exception response: message=" + response.getExceptionMessage());
             }
             else {
                 Log.e("TAG","Success");
+                resultListener.onToast("Success");
             }
         } catch (ModbusTransportException e) {
             e.printStackTrace();
             if (countWrite<3){
                 countWrite++;
-                writeCoilStatus(master, slaveId, start, value);
+                writeCoilStatus(master, slaveId, start, value, resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新发送");
             }
         }
         finally {

@@ -1,6 +1,5 @@
 package com.example.administrator.modbustcp.modbus;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.administrator.modbustcp.Interface.ResultListener;
@@ -46,6 +45,7 @@ public class Holding_Register {
                 holdingRegisterRead(ip,port,slaveId,start,len, resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新连接");
             }
         } finally {
             master.destroy();
@@ -61,6 +61,7 @@ public class Holding_Register {
                     .send(request);
             if (response.isException()) {
                 Log.e("TAG1", "Exception response: message=" + response.getExceptionMessage());
+                resultListener.onToast("Exception response: message=" + response.getExceptionMessage());
             } else {
                 ByteQueue byteQueue= new ByteQueue(12);
                 response.write(byteQueue);
@@ -79,8 +80,9 @@ public class Holding_Register {
             if (countRead<3){
                 countRead++;
                 readHoldingRegisters(master, ip, port, slaveId, start, len, resultListener);
-            }else {
+            } else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新连接");
             }
         }
     }
@@ -134,7 +136,7 @@ public class Holding_Register {
         }
     }
 
-    public static void holdingRegisterWrite(String ip, int port, int slaveId, int start, int value,Context context){
+    public static void holdingRegisterWrite(String ip, int port, int slaveId, int start, int value, ResultListener resultListener){
         ModbusFactory modbusFactory = new ModbusFactory();
         // 设备ModbusTCP的Ip与端口，如果不设定端口则默认为502
         IpParameters params = new IpParameters();
@@ -144,38 +146,42 @@ public class Holding_Register {
         ModbusMaster tcpMaster = modbusFactory.createTcpMaster(params, true);
         try {
             tcpMaster.init();
-            writeHoldingRegister(tcpMaster,slaveId,start,value,context);
+            writeHoldingRegister(tcpMaster,slaveId,start,value,resultListener);
             Log.e("TAG", "===============");
         } catch (ModbusInitException e) {
             e.printStackTrace();
             if (countWrite<3){
                 countWrite++;
-                holdingRegisterWrite(ip, port, slaveId,start, value,context);
+                holdingRegisterWrite(ip, port, slaveId,start, value,resultListener);
             }else {
                 Log.e("TAG","此处出现问题了啊");
+                resultListener.onToast("请检查设置后重新发送");
             }
         } finally {
             tcpMaster.destroy();
         }
     }
 
-    private static void writeHoldingRegister(ModbusMaster master,int slaveId, int start, int value,Context context){
+    private static void writeHoldingRegister(ModbusMaster master,int slaveId, int start, int value, ResultListener resultListener){
         try {
             WriteRegisterRequest request = new WriteRegisterRequest(slaveId, start, value);
             WriteRegisterResponse response = (WriteRegisterResponse) master.send(request);
             if (response.isException()){
                 Log.e("TAG", "Exception response: message=" + response.getExceptionMessage());
+                resultListener.onToast("Exception response: message=" + response.getExceptionMessage());
             }
             else {
                 Log.e("TAG","Success");
+                resultListener.onToast("Success");
             }
         } catch (ModbusTransportException e) {
             e.printStackTrace();
             if (countWrite<3){
                 countWrite++;
-                writeHoldingRegister(master,slaveId, start, value,context);
+                writeHoldingRegister(master,slaveId, start, value, resultListener);
             }else {
                 Log.e("TAG","请检查设置后重新连接");
+                resultListener.onToast("请检查设置后重新发送");
             }
         }
         finally {

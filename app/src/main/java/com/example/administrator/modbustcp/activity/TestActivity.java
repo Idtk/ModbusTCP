@@ -137,4 +137,9 @@ public class TestActivity extends AppCompatActivity implements ResultListener {
     public ArrayList<String> result(ArrayList<String> dataList, String ip, int port, int slaveId, int start, int type) {
         return null;
     }
+
+    @Override
+    public void onToast(String msg) {
+
+    }
 }
