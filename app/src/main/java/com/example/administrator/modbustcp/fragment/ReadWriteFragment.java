@@ -262,7 +262,10 @@ public class ReadWriteFragment extends Fragment implements ResultListener,View.O
         msg.what = TOAST;
         msg.obj = string;
         handler.sendMessage(msg);
-
+        if (flag == 1){
+            flag = 0;
+            getActivity().unbindService(readConnection);
+        }
     }
 
     @Override
